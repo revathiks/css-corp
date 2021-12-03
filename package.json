@@ -1,0 +1,45 @@
+{
+  "name": "reactjs",
+  "version": "1.0.0",
+  "description": "REact training",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack serve --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revathiks/css-corp.git"
+  },
+  "keywords": [
+    "react",
+    "js"
+  ],
+  "author": "revathi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/revathiks/css-corp/issues"
+  },
+  "homepage": "https://github.com/revathiks/css-corp#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "html-webpack-plugin": "^5.5.0",
+    "prettier": "2.5.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "react": "^17.0.2"
+  }
+}
