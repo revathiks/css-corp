@@ -6,7 +6,7 @@ module.exports = {
     path: path.resolve(__dirname, 'finalbuild'),
     filename: 'finalbuild.js'
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
