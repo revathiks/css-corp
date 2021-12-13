@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #fafafa;
+}
+
+.container > h1 {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.container > form {
+  display: flex;
+  justify-content: center;
+}
+
+.container > .weather-result {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.container > .todo-list > .todo-item {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+}
+
+.container > .todo-list > .todo-item > p {
+  flex-grow: 1;
+  padding: 0 1rem;
+}
+.container > .filter-section {
+  display: flex;
+}
+
+.container > .filter-section > button {
+  flex-grow: 1;
+}
