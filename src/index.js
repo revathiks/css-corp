@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Weather from './Pages/weather';
+import Weather from './Pages/Weather';
 import './root.css';
 
 // Components
