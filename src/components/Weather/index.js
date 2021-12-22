@@ -1,12 +1,14 @@
 import React, { Component, memo, useRef, useState, useEffect, useCallback } from 'react';
 import WeatherForm from './weatherForm';
 import WeatherSearchResults from './WeatherSearchResults';
+import WeatherReport from './WeatherReport';
 import PropTypes from 'prop-types';
 //import debounce from 'lodash/debounce';
 import debounce from "lodash.debounce"
 
 const Weather = () => {
     const [searchResult, setsearchResult] = useState([]);
+    const [weatherReport, setweatherReport] = useState('');
     const [locationText, setlocationText] = useState('');
     const [error, seterror] = useState('');
     const [httpStatus, setHttpStatus] = useState([]);
@@ -61,6 +63,25 @@ const Weather = () => {
     }, 2000), []);
 
 
+
+
+    const getWeatherReport = async (id) => {
+        const type = 'CITY_REPORT';
+        try {
+            // loadingStatus({ type, id: item.id });
+            const result = await fetch(`http://localhost:3000/weather-list/${id}`);
+            const json = await result.json();
+            console.log(result)
+            setweatherReport(json);
+
+
+        } catch (error) {
+
+        }
+
+    }
+
+
     // const findLocation2 = (event) => {
     //     //event.preventDefault();
     //     //findLocation2();
@@ -72,7 +93,8 @@ const Weather = () => {
         <>
             <h1>WeatherWatch</h1>
             <WeatherForm ref={inputRef} findLoaction={findLocation} />
-            <WeatherSearchResults searchResult={searchResult} searchStatus={searchStatus} />
+            <WeatherSearchResults searchResult={searchResult} searchStatus={searchStatus} getWeatherReport={getWeatherReport} />
+            <WeatherReport weatherReport={weatherReport} />
         </>
     );
 }
