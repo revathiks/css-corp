@@ -1,10 +1,60 @@
 {
-  "todo-list": [
+  "weather-list": [
     {
-      "text": "sdfg",
-      "isDone": false,
-      "timeStamp": "12-17-21 15:29",
-      "id": 12
+      "id": 1,
+      "location": "Chennai",
+      "icon": 3,
+      "conditions": 1,
+      "temp": 100,
+      "temp_max": 10,
+      "temp_min": 20,
+      "feels_like": 12,
+      "wind_speed": 45,
+      "wind_direction": "left",
+      "pressure": 6,
+      "humidity": 8
+    },
+    {
+      "id": 2,
+      "location": "bangalore",
+      "icon": 3,
+      "conditions": 1,
+      "temp": 100,
+      "temp_max": 10,
+      "temp_min": 20,
+      "feels_like": 12,
+      "wind_speed": 45,
+      "wind_direction": "left",
+      "pressure": 6,
+      "humidity": 8
+    },
+    {
+      "id": 3,
+      "location": "chxx",
+      "icon": 3,
+      "conditions": 1,
+      "temp": 100,
+      "temp_max": 10,
+      "temp_min": 20,
+      "feels_like": 12,
+      "wind_speed": 45,
+      "wind_direction": "left",
+      "pressure": 6,
+      "humidity": 8
+    },
+    {
+      "id": 4,
+      "location": "bafff",
+      "icon": 3,
+      "conditions": 1,
+      "temp": 100,
+      "temp_max": 10,
+      "temp_min": 20,
+      "feels_like": 12,
+      "wind_speed": 45,
+      "wind_direction": "left",
+      "pressure": 6,
+      "humidity": 8
     }
   ]
 }
