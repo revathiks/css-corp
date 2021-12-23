@@ -2,16 +2,15 @@ import React, { memo } from 'react'
 
 const WeatherReport = ({ weatherReport }) => {
     console.log('Weather Report Render');
+    console.log(weatherReport)
     return (
         <>
             {weatherReport ?
                 <>
                     <div className=' flex flex-row  justify-center'>
-                        <div className="text-left">
-                            <h1>xxxxxxx</h1>
-
+                        <div className="text-left bg-white mt-5">
+                            <h1 className=" font-bold">{weatherReport.location}</h1>
                             <div >SCATTERED CLOUDS| FEEL LIKE {weatherReport.feels_like}</div>
-
                         </div>
                     </div>
                     <div className='flex flex-row  justify-center'>

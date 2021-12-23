@@ -46,7 +46,6 @@ const Weather = () => {
     };
 
     const findLocation = async () => {
-        console.log(4)
         const type = 'SEARCH_CITY';
         try {
             loadingStatus({ type });
@@ -62,13 +61,13 @@ const Weather = () => {
     };
 
     //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
-    const searchLocations = debounce((text) => setlocationText(text), 1000);
+    const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
 
-    const getWeatherReport = async (id) => {
+    const getWeatherReport = async (id = 2) => {
         const type = 'CITY_REPORT';
+        console.log('3');
         try {
-            // loadingStatus({ type, id: item.id });
-            console.log(5)
+            // loadingStatus({ type, id: item.id });           
             const result = await fetch(`http://localhost:3000/weather-list/${id}`);
             const json = await result.json();
             console.log(result)
@@ -79,8 +78,12 @@ const Weather = () => {
 
     }
     useEffect(() => {
-        findLocation()
+        findLocation();
     }, [locationText]);
+
+    useEffect(() => {
+        getWeatherReport()
+    }, []);
 
 
     const searchStatus = httpStatus.length > 0 ? httpStatus.find((x) => x.type === 'SEARCH_CITY') : '';
