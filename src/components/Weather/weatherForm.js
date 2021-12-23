@@ -1,13 +1,15 @@
 import React, { memo, forwardRef } from 'react';
 
-const WeatherForm = forwardRef(({ findLoaction }, ref) => {
+const WeatherForm = forwardRef(({ setlocationText, searchLocations }, ref) => {
     console.log('Weather form Render');
     return (
         <>
-            <form onSubmit={findLoaction}>
-                <h1>Location</h1>
-                <input type="text" onChange={findLoaction} ref={ref} />
-                <button type="submit">submit</button>
+            <form >
+                <div>
+                    <h1>Location</h1>
+                    <input type="text" onChange={(e) => searchLocations(e.target.value)} ref={ref} />
+                </div>
+
             </form>
         </>
 

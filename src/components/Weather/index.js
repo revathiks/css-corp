@@ -2,6 +2,7 @@ import React, { Component, memo, useRef, useState, useEffect, useCallback } from
 import WeatherForm from './weatherForm';
 import WeatherSearchResults from './WeatherSearchResults';
 import WeatherReport from './WeatherReport';
+import WeatherUnits from './weatherUnit'
 import PropTypes from 'prop-types';
 //import debounce from 'lodash/debounce';
 import debounce from "lodash.debounce"
@@ -44,57 +45,53 @@ const Weather = () => {
         );
     };
 
-    const findLocation = useCallback(debounce(async (location) => {
+    const findLocation = async () => {
+        console.log(4)
         const type = 'SEARCH_CITY';
         try {
             loadingStatus({ type });
-            const locationText = inputRef.current.value;
+            const location = inputRef.current.value;
             const result = await fetch('http://localhost:3000/weather-list');
             const json = await result.json();
-            const searchResult = json.filter((item) => item.location.toLowerCase().match(locationText));
-            setlocationText(locationText);
-            setsearchResult(searchResult)
-            //console.log(searchResult);
+            const searchResult = json.filter((item) => item.location.toLowerCase().match(location));
+            setsearchResult(searchResult);
             successStatus({ type });
         } catch (error) {
             errorStatus({ type, payload: error });
         }
+    };
 
-    }, 2000), []);
-
-
-
+    //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
+    const searchLocations = debounce((text) => setlocationText(text), 1000);
 
     const getWeatherReport = async (id) => {
         const type = 'CITY_REPORT';
         try {
             // loadingStatus({ type, id: item.id });
+            console.log(5)
             const result = await fetch(`http://localhost:3000/weather-list/${id}`);
             const json = await result.json();
             console.log(result)
             setweatherReport(json);
-
-
         } catch (error) {
 
         }
 
     }
+    useEffect(() => {
+        findLocation()
+    }, [locationText]);
 
-
-    // const findLocation2 = (event) => {
-    //     //event.preventDefault();
-    //     //findLocation2();
-    // }
 
     const searchStatus = httpStatus.length > 0 ? httpStatus.find((x) => x.type === 'SEARCH_CITY') : '';
     //console.log(searchStatus);
     return (
         <>
             <h1>WeatherWatch</h1>
-            <WeatherForm ref={inputRef} findLoaction={findLocation} />
-            <WeatherSearchResults searchResult={searchResult} searchStatus={searchStatus} getWeatherReport={getWeatherReport} />
+            <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
+            <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeatherReport={getWeatherReport} />
             <WeatherReport weatherReport={weatherReport} />
+            <WeatherUnits />
         </>
     );
 }

@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 
 const WeatherReport = ({ weatherReport }) => {
-    console.log(weatherReport);
+    console.log('Weather Report Render');
     return (
         <div>
             {weatherReport ?
