@@ -63,7 +63,7 @@ const Weather = () => {
     //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
     const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
 
-    const getWeatherReport = async (id = 2) => {
+    const getWeather = async (id = 2) => {
         const type = 'CITY_REPORT';
         console.log('3');
         try {
@@ -82,7 +82,7 @@ const Weather = () => {
     }, [locationText]);
 
     useEffect(() => {
-        getWeatherReport()
+        getWeather()
     }, []);
 
 
@@ -97,7 +97,7 @@ const Weather = () => {
                 <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
                 <WeatherUnits />
             </div>
-            <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeatherReport={getWeatherReport} />
+            <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />
             <WeatherReport weatherReport={weatherReport} />
 
         </div>
