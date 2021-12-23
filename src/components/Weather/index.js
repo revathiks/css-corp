@@ -86,13 +86,18 @@ const Weather = () => {
     const searchStatus = httpStatus.length > 0 ? httpStatus.find((x) => x.type === 'SEARCH_CITY') : '';
     //console.log(searchStatus);
     return (
-        <>
-            <h1>WeatherWatch</h1>
-            <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
+        <div className="h-screen flex flex-col bg-gray-100">
+            <div className="flex justify-center mx-1 my-1 divide-y divide-dashed">
+                <h1 className="font-medium  border-b border-red-800">WeatherWatch</h1>
+            </div>
+            <div className="flex flex-row justify-center">
+                <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
+                <WeatherUnits />
+            </div>
             <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeatherReport={getWeatherReport} />
             <WeatherReport weatherReport={weatherReport} />
-            <WeatherUnits />
-        </>
+
+        </div>
     );
 }
 export default memo(Weather);
