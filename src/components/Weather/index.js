@@ -2,14 +2,13 @@ import React, { Component, memo, useRef, useState, useEffect, useCallback } from
 import WeatherForm from './weatherForm';
 import WeatherSearchResults from './WeatherSearchResults';
 import WeatherReport from './WeatherReport';
-import WeatherUnits from './weatherUnit'
-import PropTypes from 'prop-types';
+import WeatherUnits from './weatherUnit';
 //import debounce from 'lodash/debounce';
 import debounce from "lodash.debounce"
 
 const Weather = () => {
     const [searchResult, setsearchResult] = useState([]);
-    const [weatherReport, setweatherReport] = useState('');
+    const [weatherReport, setweatherReport] = useState({});
     const [locationText, setlocationText] = useState('');
     const [error, seterror] = useState('');
     const [httpStatus, setHttpStatus] = useState([]);
@@ -35,10 +34,11 @@ const Weather = () => {
     };
 
     const errorStatus = ({ type, payload, id = -1 }) => {
+
         setHttpStatus((existingStatus) =>
             existingStatus.map((item) => {
                 if (item.type === type && item.id === id) {
-                    return { ...existingStatus, status: 'FAIL', payload };
+                    return { ...item, status: 'FAIL', payload };
                 }
                 return item;
             }),
@@ -51,6 +51,7 @@ const Weather = () => {
             loadingStatus({ type });
             const location = inputRef.current.value;
             const result = await fetch('http://localhost:3000/weather-list');
+            if (!result.ok) throw new Error("Something went wrong with API")
             const json = await result.json();
             const searchResult = json.filter((item) => item.location.toLowerCase().match(location));
             setsearchResult(searchResult);
@@ -65,15 +66,15 @@ const Weather = () => {
 
     const getWeather = async (id = 2) => {
         const type = 'CITY_REPORT';
-        console.log('3');
         try {
-            // loadingStatus({ type, id: item.id });           
+            loadingStatus({ type });
             const result = await fetch(`http://localhost:3000/weather-list/${id}`);
+            if (!result.ok) throw new Error("Something went wrong with weather report API")
             const json = await result.json();
-            console.log(result)
             setweatherReport(json);
+            successStatus({ type });
         } catch (error) {
-
+            errorStatus({ type, payload: error });
         }
 
     }
@@ -86,8 +87,8 @@ const Weather = () => {
     }, []);
 
 
-    const searchStatus = httpStatus.length > 0 ? httpStatus.find((x) => x.type === 'SEARCH_CITY') : '';
-    //console.log(searchStatus);
+    const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
+    const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
     return (
         <div className="h-screen flex flex-col bg-gray-100">
             <div className="flex justify-center mx-1 my-1 divide-y divide-dashed">
@@ -98,7 +99,7 @@ const Weather = () => {
                 <WeatherUnits />
             </div>
             <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />
-            <WeatherReport weatherReport={weatherReport} />
+            <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} />
 
         </div>
     );
