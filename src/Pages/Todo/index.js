@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import loadable from '@loadable/component';
 import ThemeProvider from '../../context/themeContext';
+
 // import format from 'date-fns/format';
 // import TodoFilter from './todoFilter';
 import TodoForm from './todoForm';
@@ -380,11 +381,11 @@ const Todo = () => {
         </ThemeProvider>
       ) : (
         <div className="h-screen">
-          <h1 className="text-center">Please add task</h1>
+          <h1 className="text-center">Please add tasdk</h1>
         </div>
       )}
 
-      <TodoFilter filterType={filterType} handleFilter={() => {}} />
+      <TodoFilter filterType={filterType} handleFilter={() => { }} />
     </div>
   );
 };
