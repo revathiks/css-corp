@@ -1,10 +1,8 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types';
-import propTypes from 'prop-types';
 
 const WeatherReport = ({ weatherReport, reportStatus }) => {
     console.log('Weather Report Render');
-    console.log(typeof (weatherReport), 4);
     return (
         <>
 

@@ -10,6 +10,7 @@ const Weather = () => {
     const [searchResult, setsearchResult] = useState([]);
     const [weatherReport, setweatherReport] = useState({});
     const [locationText, setlocationText] = useState('');
+    const [tempOption, settempOption] = useState('C');
     const [error, seterror] = useState('');
     const [httpStatus, setHttpStatus] = useState([]);
     const inputRef = useRef();
@@ -50,10 +51,10 @@ const Weather = () => {
         try {
             loadingStatus({ type });
             const location = inputRef.current.value;
-            const result = await fetch('http://localhost:3000/weather-list');
+            const result = await fetch('http://localhost:3000/cities');
             if (!result.ok) throw new Error("Something went wrong with API")
             const json = await result.json();
-            const searchResult = json.filter((item) => item.location.toLowerCase().match(location));
+            const searchResult = json.filter((item) => item.name.toLowerCase().match(location));
             setsearchResult(searchResult);
             successStatus({ type });
         } catch (error) {
@@ -65,6 +66,7 @@ const Weather = () => {
     const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
 
     const getWeather = async (id = 2) => {
+        console.log(tempOption)
         const type = 'CITY_REPORT';
         try {
             loadingStatus({ type });
@@ -78,13 +80,18 @@ const Weather = () => {
         }
 
     }
+    const UpdateTemp = (val) => {
+        settempOption(val);
+
+
+    }
     useEffect(() => {
         findLocation();
     }, [locationText]);
 
     useEffect(() => {
         getWeather()
-    }, []);
+    }, [tempOption]);
 
 
     const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
@@ -96,7 +103,7 @@ const Weather = () => {
             </div>
             <div className="flex flex-row justify-center">
                 <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
-                <WeatherUnits />
+                <WeatherUnits UpdateTemp={UpdateTemp} />
             </div>
             <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />
             <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} />

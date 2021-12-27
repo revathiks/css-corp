@@ -7,7 +7,7 @@ const WeatherSearchResults = ({ searchResult, searchStatus, getWeather, location
         <div className="flex justify-center">
             {searchStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
             {searchStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{searchStatus.payload.message}</div>}
-            {locationText ? searchResult.map((item) => <button className="btn-primary my-1 mx-1 bg-pink-400 rounded-full" key={item.id} onClick={() => getWeather(item.id)}>{item.location}</button>) : ''}
+            {locationText ? searchResult.map((item) => <button className="btn-primary my-1 mx-1 bg-pink-400 rounded-full" key={item.id} onClick={() => getWeather(item.id)}>{item.name}</button>) : ''}
 
         </div>
     )
