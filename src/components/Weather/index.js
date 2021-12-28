@@ -99,6 +99,8 @@ const Weather = () => {
 
     const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
     const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
+    console.log(locationText, 9);
+    console.log(searchResult.length)
     return (
         <div className=" bg-gray-100">
             < div className=" flex flex-col bg-slate-50 mx-10 py-5 px-5" >
@@ -110,9 +112,15 @@ const Weather = () => {
                     <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
                     <WeatherUnits UpdateTemp={UpdateTemp} />
                 </div>
+                <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />
+                <div className="flex flex-col bg-white px-5 my-3">
+                    <div className="">
+                        {reportStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
+                        {reportStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{reportStatus.payload.message}</div>}
+                    </div>
+                    {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} tempOption={tempOption} />}
+                </div>
 
-                {searchResult.length > 0 && <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />}
-                {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} tempOption={tempOption} />}
 
             </div >
         </div >

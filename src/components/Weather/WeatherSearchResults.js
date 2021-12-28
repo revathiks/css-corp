@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 const WeatherSearchResults = ({ searchResult, searchStatus, getWeather, locationText }) => {
     console.log('Weather search result Render');
+    console.log(searchResult.length)
     return (
         <div className="flex">
             {searchStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
             {searchStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{searchStatus.payload.message}</div>}
-            {locationText && !searchStatus?.status ? searchResult.map((item) => <button className="btn-primary my-1 mx-1 from-red-700 to-purple-400 bg-gradient-to-r rounded-full" key={item.id} onClick={() => getWeather(item.name)}>{item.name}</button>) : ''}
-
+            {searchResult.length > 0 && !searchStatus?.status ? searchResult.map((item) => <button className="btn-primary my-1 mx-1 from-red-700 to-purple-400 bg-gradient-to-r rounded-full" key={item.id} onClick={() => getWeather(item.name)}>{item.name}</button>) : (locationText != "" && !searchStatus?.status ? <div className='font-bold text-red-400 ml-5'>No city found!</div> : '')}
         </div>
     )
 }

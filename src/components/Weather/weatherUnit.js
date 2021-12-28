@@ -1,4 +1,5 @@
 import React, { memo, forwardRef } from 'react';
+import PropTypes from 'prop-types';
 
 const WeatherUnits = ({ UpdateTemp }) => {
     return (
@@ -15,4 +16,10 @@ const WeatherUnits = ({ UpdateTemp }) => {
         </>
     )
 };
+WeatherUnits.prototypes = {
+    UpdateTemp: PropTypes.string.isRequired
+}
+WeatherUnits.defaultProps = {
+    tempOption: 'imperial'
+}
 export default WeatherUnits;

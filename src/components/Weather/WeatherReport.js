@@ -6,14 +6,10 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
     const { main, wind, name } = weatherReport;
     const { temp, temp_min, temp_max, feels_like, pressure, humidity } = main;
     return (
-        <div className="flex flex-col bg-white px-5 my-3">
+        <>
 
-            <div className="">
-                {reportStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
-                {reportStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{reportStatus.payload.message}</div>}
-            </div>
             {
-                weatherReport && !reportStatus?.status ?
+                weatherReport ?
                     <>
 
                         <div className="text-left bg-white mt-5">
@@ -42,10 +38,11 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
                     </>
                     : ''
             }
-        </div>
+        </>
     )
 }
 WeatherReport.propTypes = {
+
     weatherReport: PropTypes.shape(
         {
             location: PropTypes.string,
@@ -58,7 +55,13 @@ WeatherReport.propTypes = {
             pressure: PropTypes.number,
             humidity: PropTypes.number,
         }
-    )
+    ),
+    reportStatus: PropTypes.shape({
+        status: PropTypes.oneOf(['REQUEST', 'FAIL']),
+        type: PropTypes.oneOf(['CITY_REPORT']),
+        payload: PropTypes.objectOf(Error)
+    }),
+    tempOption: PropTypes.string.isRequired
 };
 WeatherReport.defaultProps = {
     weatherReport: undefined,
