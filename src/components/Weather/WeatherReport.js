@@ -1,48 +1,48 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types';
 
-const WeatherReport = ({ weatherReport, reportStatus }) => {
+const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
     console.log('Weather Report Render');
     const { main, wind, name } = weatherReport;
     const { temp, temp_min, temp_max, feels_like, pressure, humidity } = main;
     return (
-        <>
+        <div className="flex flex-col bg-white px-5 my-3">
 
-            <div className="flex justify-center">
+            <div className="">
                 {reportStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
                 {reportStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{reportStatus.payload.message}</div>}
             </div>
             {
-                weatherReport ?
+                weatherReport && !reportStatus?.status ?
                     <>
-                        <div className=' flex flex-row  justify-center'>
-                            <div className="text-left bg-white mt-5">
-                                <h1 className=" font-bold">{name}</h1>
-                                <div >SCATTERED CLOUDS| FEEL LIKE {feels_like}</div>
-                            </div>
-                        </div>
-                        <div className='flex flex-row  justify-center'>
 
-                            <div className='bg-orange-400 bg-gradient-to-tr px-5 py-5 my-5'><div>CURRENT TEMPRATURE</div> <div>{temp}</div></div>
-                            <div className='bg-orange-400 bg-gradient-to-tr px-5 py-5 my-5 mx-2'><div>MAXIMUM TEMPRATURE </div><div>{temp_max}</div></div>
-                            <div className='bg-orange-400 bg-gradient-to-tr px-5 py-5 my-5'><div>MINIMUM TEMPRATURE </div><div>{temp_min}</div></div>
+                        <div className="text-left bg-white mt-5">
+                            <h1 className=" font-bold text-xl leading-10">{name}</h1>
+                            <div className="font-normal text-slate-400">SCATTERED CLOUDS | FEEL LIKE {feels_like} {tempOption} </div>
+                        </div>
+
+                        <div className='flex text-slate-50'>
+
+                            <div className='from-orange-700  to-orange-500 bg-gradient-to-r px-5 py-5 my-5 order-1 flex-1 rounded-lg'><div>CURRENT TEMPRATURE</div> <div>{temp} {tempOption}</div></div>
+                            <div className='from-orange-700  to-orange-500 bg-gradient-to-r px-5 py-5 my-5 mx-2 order-2 flex-1 rounded-lg'><div>MAXIMUM TEMPRATURE </div><div>{temp_max} {tempOption}</div></div>
+                            <div className='from-orange-700  to-orange-500 bg-gradient-to-r px-5 py-5 my-5 order-3 flex-1 rounded-lg'><div>MINIMUM TEMPRATURE </div><div>{temp_min} {tempOption}</div></div>
 
                         </div>
-                        <div className='flex flex-row  justify-center'>
+                        <div className='flex text-slate-50'>
 
-                            <div className=' bg-pink-500  bg-gradient-to-tr px-5 py-5 my-5'><div>WIND SPEED</div><div>{wind.speed}</div></div>
-                            <div className='bg-pink-500 bg-gradient-to-tr px-5 py-5 my-5 ml-2'><div>WIND DIRECTION</div> <div>{wind.degree}</div></div>
+                            <div className=' from-pink-700 to-purple-500 bg-gradient-to-r px-5 py-5 my-5 flex-1 rounded-lg'><div>WIND SPEED</div><div>{wind.speed} meter /sec</div></div>
+                            <div className='from-pink-700 to-pink-500 bg-gradient-to-r px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>WIND DIRECTION</div> <div>{wind.degree} degree</div></div>
                         </div>
-                        <div className='flex flex-row  justify-center'>
-                            <div className='bg-blue-500 bg-gradient-to-tr px-5 py-5 my-5'><div>PRESSURE</div> <div>{pressure}</div></div>
-                            <div className='bg-blue-500 bg-gradient-to-tr px-5 py-5 my-5 ml-2'><div>HUMIDITY</div> <div>{humidity}</div></div>
+                        <div className='flex text-slate-50'>
+                            <div className='from-blue-400 to-blue-500 bg-gradient-to-r w-full px-5 py-5 my-5 flex-1 rounded-lg'><div>PRESSURE</div> <div>{pressure} hPa</div></div>
+                            <div className=' from-blue-400 to-blue-500 bg-gradient-to-r w-full block px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>HUMIDITY</div> <div>{humidity} %</div></div>
                         </div>
 
 
                     </>
                     : ''
             }
-        </>
+        </div>
     )
 }
 WeatherReport.propTypes = {
@@ -62,5 +62,6 @@ WeatherReport.propTypes = {
 };
 WeatherReport.defaultProps = {
     weatherReport: undefined,
+    tempOption: 'imperial'
 }
 export default memo(WeatherReport);

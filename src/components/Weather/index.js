@@ -72,16 +72,14 @@ const Weather = () => {
     const getWeather = async (city = 'bangalore') => {
         const type = 'CITY_REPORT';
         try {
-            // loadingStatus({ type });
-            // const result = await fetch(`http://localhost:3000/weather-list/${id}`);
-            //console.log(`${apiUrl}?q=${city}&units=${tempOption}&appid=${appId}`);
+            loadingStatus({ type });
             const result = await fetch(`${apiUrl}?q=${city}&units=${tempOption}&appid=${appId}`)
             if (!result.ok) throw new Error("Something went wrong with weather report API")
             const json = await result.json();
             setweatherReport(json);
-            // successStatus({ type });
+            successStatus({ type });
         } catch (error) {
-            //errorStatus({ type, payload: error });
+            errorStatus({ type, payload: error });
         }
 
     }
@@ -102,18 +100,22 @@ const Weather = () => {
     const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
     const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
     return (
-        <div className="h-screen flex flex-col bg-gray-100">
-            <div className="flex justify-center mx-1 my-1 divide-y divide-dashed">
-                <h1 className="font-medium  border-b border-red-800">WeatherWatch</h1>
-            </div>
-            <div className="flex flex-row justify-center">
-                <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
-                <WeatherUnits UpdateTemp={UpdateTemp} />
-            </div>
-            {searchResult.length > 0 && <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />}
-            {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} />}
+        <div className=" bg-gray-100">
+            < div className=" flex flex-col bg-slate-50 mx-10 py-5 px-5" >
+                <div className="justify-center mx-1 my-1 divide-y divide-dashed">
+                    <h1 className="font-bold text-xl border-b border-red-800">WeatherWatch</h1>
+                </div>
 
-        </div>
+                <div className='flex mt-5'>
+                    <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
+                    <WeatherUnits UpdateTemp={UpdateTemp} />
+                </div>
+
+                {searchResult.length > 0 && <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />}
+                {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} tempOption={tempOption} />}
+
+            </div >
+        </div >
     );
 }
 export default memo(Weather);
