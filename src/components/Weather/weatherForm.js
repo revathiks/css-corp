@@ -1,7 +1,7 @@
 import React, { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-const WeatherForm = forwardRef(({ setlocationText, searchLocations }, ref) => {
+const WeatherForm = forwardRef(({ searchLocations }, ref) => {
     console.log('Weather form Render');
     return (
         <div className=" mr-1">
@@ -17,7 +17,6 @@ const WeatherForm = forwardRef(({ setlocationText, searchLocations }, ref) => {
     );
 });
 WeatherForm.propTypes = {
-    setlocationText: PropTypes.func.isRequired,
     searchLocations: PropTypes.func.isRequired
 }
 export default memo(WeatherForm);

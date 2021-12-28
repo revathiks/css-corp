@@ -56,8 +56,9 @@ const Weather = () => {
             const result = await fetch('http://localhost:3000/cities');
             if (!result.ok) throw new Error("Something went wrong with API")
             const json = await result.json();
-            const searchResult = json.filter((item) => item.name.toLowerCase().match(location.toLowerCase()));
-            setsearchResult(searchResult);
+            const searchResults = json.filter((item) => item.name.toLowerCase().match(location.toLowerCase()));
+            setsearchResult(searchResults);
+            setlocationText(location);
             successStatus({ type });
         } catch (error) {
             errorStatus({ type, payload: error });
@@ -65,22 +66,22 @@ const Weather = () => {
     };
 
     //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
-    const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
+    //const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
+    const searchLocations = debounce((text) => { findLocation(); setweatherReport('') }, 1000);
 
     const getWeather = async (city = 'bangalore') => {
-        console.log(tempOption)
         const type = 'CITY_REPORT';
         try {
-            loadingStatus({ type });
+            // loadingStatus({ type });
             // const result = await fetch(`http://localhost:3000/weather-list/${id}`);
             //console.log(`${apiUrl}?q=${city}&units=${tempOption}&appid=${appId}`);
             const result = await fetch(`${apiUrl}?q=${city}&units=${tempOption}&appid=${appId}`)
             if (!result.ok) throw new Error("Something went wrong with weather report API")
             const json = await result.json();
             setweatherReport(json);
-            successStatus({ type });
+            // successStatus({ type });
         } catch (error) {
-            errorStatus({ type, payload: error });
+            //errorStatus({ type, payload: error });
         }
 
     }
@@ -89,9 +90,9 @@ const Weather = () => {
 
 
     }
-    useEffect(() => {
-        findLocation();
-    }, [locationText]);
+    // useEffect(() => {
+    //     findLocation();
+    // }, [locationText]);
 
     useEffect(() => {
         getWeather()
@@ -100,7 +101,6 @@ const Weather = () => {
 
     const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
     const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
-    console.log(weatherReport)
     return (
         <div className="h-screen flex flex-col bg-gray-100">
             <div className="flex justify-center mx-1 my-1 divide-y divide-dashed">
@@ -110,7 +110,7 @@ const Weather = () => {
                 <WeatherForm ref={inputRef} setlocationText={setlocationText} searchLocations={searchLocations} />
                 <WeatherUnits UpdateTemp={UpdateTemp} />
             </div>
-            <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />
+            {searchResult.length > 0 && <WeatherSearchResults locationText={locationText} searchResult={searchResult} searchStatus={searchStatus} getWeather={getWeather} />}
             {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} />}
 
         </div>
