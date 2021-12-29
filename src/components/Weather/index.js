@@ -13,6 +13,7 @@ const Weather = () => {
     const [weatherReport, setweatherReport] = useState({});
     const [locationText, setlocationText] = useState('');
     const [tempOption, settempOption] = useState('imperial');
+    const [selectedcity, setselectedcity] = useState('bangalore');
     const [error, seterror] = useState('');
     const [httpStatus, setHttpStatus] = useState([]);
     const inputRef = useRef();
@@ -53,10 +54,13 @@ const Weather = () => {
         try {
             loadingStatus({ type });
             const location = inputRef.current.value;
+            if (!location) {
+                throw new Error("Plese enter city")
+            }
             const result = await fetch('http://localhost:3000/cities');
             if (!result.ok) throw new Error("Something went wrong with API")
             const json = await result.json();
-            const searchResults = json.filter((item) => item.name.toLowerCase().match(location.toLowerCase()));
+            const searchResults = json.filter((item) => item.name.toLowerCase().startsWith(location.toLowerCase()));
             setsearchResult(searchResults);
             setlocationText(location);
             successStatus({ type });
@@ -67,9 +71,9 @@ const Weather = () => {
 
     //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
     //const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
-    const searchLocations = debounce((text) => { findLocation(); setweatherReport('') }, 1000);
+    const searchLocations = debounce((text) => { findLocation(); }, 1000);
 
-    const getWeather = async (city = 'bangalore') => {
+    const getWeather = async (city = selectedcity) => {
         const type = 'CITY_REPORT';
         try {
             loadingStatus({ type });
@@ -77,6 +81,7 @@ const Weather = () => {
             if (!result.ok) throw new Error("Something went wrong with weather report API")
             const json = await result.json();
             setweatherReport(json);
+            setselectedcity(city)
             successStatus({ type });
         } catch (error) {
             errorStatus({ type, payload: error });
@@ -85,8 +90,6 @@ const Weather = () => {
     }
     const UpdateTemp = (val) => {
         settempOption(val);
-
-
     }
     // useEffect(() => {
     //     findLocation();
@@ -99,8 +102,6 @@ const Weather = () => {
 
     const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
     const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
-    console.log(locationText, 9);
-    console.log(searchResult.length)
     return (
         <div className=" bg-gray-100">
             < div className=" flex flex-col bg-slate-50 mx-10 py-5 px-5" >
