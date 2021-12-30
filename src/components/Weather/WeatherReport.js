@@ -11,9 +11,12 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
                 weatherReport ?
                     <>
 
-                        <div className="text-left bg-white mt-5">
-                            <h1 className=" font-bold text-xl leading-10">{name}</h1>
-                            <div className="font-normal text-slate-400">SCATTERED CLOUDS | FEEL LIKE {feels_like} {tempOption} </div>
+                        <div className="flex text-left bg-white mt-5">
+                            <div className=' order-1 flex-grow'>
+                                <h1 className=" font-bold text-xl leading-10">{name}</h1>
+                                <div className="font-normal text-slate-400">SCATTERED CLOUDS | FEEL LIKE {feels_like} {tempOption} </div>
+                            </div>
+                            <div className=' order-2 '><img src={`http://openweathermap.org/img/wn/04d@2x.png`} className="bg-[#eca88e] rounded-full" /></div>
                         </div>
 
                         <div className='flex text-slate-50'>
@@ -26,7 +29,7 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
                         <div className='flex text-slate-50'>
 
                             <div className=' from-pink-700 to-purple-500 bg-gradient-to-r px-5 py-5 my-5 flex-1 rounded-lg'><div>WIND SPEED</div><div>{wind.speed} meter /sec</div></div>
-                            <div className='from-pink-700 to-pink-500 bg-gradient-to-r px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>WIND DIRECTION</div> <div>{wind.degree} degree</div></div>
+                            <div className='from-pink-700 to-pink-500 bg-gradient-to-r px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>WIND DIRECTION</div> <div>{wind.deg} degree</div></div>
                         </div>
                         <div className='flex text-slate-50'>
                             <div className='from-blue-400 to-blue-500 bg-gradient-to-r w-full px-5 py-5 my-5 flex-1 rounded-lg'><div>PRESSURE</div> <div>{pressure} hPa</div></div>
