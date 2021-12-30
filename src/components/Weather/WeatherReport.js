@@ -2,8 +2,10 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types';
 
 const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
-    const { main, wind, name } = weatherReport;
+    const { main, wind, name, weather } = weatherReport;
     const { temp, temp_min, temp_max, feels_like, pressure, humidity } = main;
+    const [icon] = weather;
+
     return (
         <>
 
@@ -16,7 +18,7 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
                                 <h1 className=" font-bold text-xl leading-10">{name}</h1>
                                 <div className="font-normal text-slate-400">SCATTERED CLOUDS | FEEL LIKE {feels_like} {tempOption} </div>
                             </div>
-                            <div className=' order-2 '><img src={`http://openweathermap.org/img/wn/04d@2x.png`} className="bg-[#eca88e] rounded-full" /></div>
+                            <div className=' order-2 '><img src={`http://openweathermap.org/img/wn/${icon.icon}.png`} className="bg-[#eca88e] rounded-full" /></div>
                         </div>
 
                         <div className='flex text-slate-50'>
