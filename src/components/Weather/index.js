@@ -57,7 +57,8 @@ const Weather = () => {
             if (!location) {
                 throw new Error("Plese enter city")
             }
-            const result = await fetch('http://localhost:3000/cities');
+            //const result = await fetch('http://localhost:3000/cities');
+            const result = await fetch('https://my-json-server.typicode.com/revathiks/mockapi/cities');
             if (!result.ok) throw new Error("Something went wrong with API")
             const json = await result.json();
             const searchResults = json.filter((item) => item.name.toLowerCase().startsWith(location.toLowerCase()));

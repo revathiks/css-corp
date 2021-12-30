@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types';
 
 const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
-    console.log('Weather Report Render');
     const { main, wind, name } = weatherReport;
     const { temp, temp_min, temp_max, feels_like, pressure, humidity } = main;
     return (
