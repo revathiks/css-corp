@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const WeatherSearchResults = ({ searchResult, searchStatus, getWeather, locationText }) => {
+    console.log("Weather search result render");
     return (
         <div className="flex">
             {searchStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}

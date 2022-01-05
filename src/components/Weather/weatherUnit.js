@@ -2,6 +2,7 @@ import React, { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 const WeatherUnits = ({ UpdateTemp }) => {
+    console.log("Weather unit render");
     return (
         <>
             <div className="order-2 flex-grow border px-5 py-5 bg-white">

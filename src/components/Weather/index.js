@@ -57,11 +57,9 @@ const Weather = () => {
             if (!location) {
                 throw new Error("Plese enter city")
             }
-            console.log(location)
             //const result = await fetch('http://localhost:3000/cities');
             const result = await fetch(`https://api.weatherserver.com/weather/cities/${location}`);
             const json = await result.json();
-            console.log(json)
             if (!result.ok) throw new Error("Something went wrong with API")
             const searchResults = json.results.filter((item) => item.name.toLowerCase().startsWith(location.toLowerCase()));
             setsearchResult(searchResults);
@@ -77,7 +75,6 @@ const Weather = () => {
     const searchLocations = debounce((text) => { findLocation(); }, 1000);
 
     const getWeather = async (city = selectedcity) => {
-        console.log(tempOption)
         const type = 'CITY_REPORT';
         try {
             loadingStatus({ type });

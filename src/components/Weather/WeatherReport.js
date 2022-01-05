@@ -2,8 +2,8 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types';
 
 const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
+    console.log("Weather Report render");
     const { temp, temp_min, temp_max, feels_like, pressure, humidity, icon, location, wind_direction, wind_speed } = weatherReport;
-
     return (
         <>
 
@@ -53,7 +53,7 @@ WeatherReport.propTypes = {
             temp_min: PropTypes.number,
             feels_like: PropTypes.number,
             wind_speed: PropTypes.number,
-            wind_direction: PropTypes.string,
+            wind_direction: PropTypes.number,
             pressure: PropTypes.number,
             humidity: PropTypes.number,
         }

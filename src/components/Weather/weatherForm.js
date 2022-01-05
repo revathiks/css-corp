@@ -2,6 +2,7 @@ import React, { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 const WeatherForm = forwardRef(({ searchLocations }, ref) => {
+    console.log("Weather form render");
     return (
         <div className=" order-1 flex-grow mr-1 border px-5 py-5 bg-white">
             <form>
