@@ -12,8 +12,8 @@ const Weather = () => {
     const [searchResult, setsearchResult] = useState([]);
     const [weatherReport, setweatherReport] = useState({});
     const [locationText, setlocationText] = useState('');
-    const [tempOption, settempOption] = useState('imperial');
-    const [selectedcity, setselectedcity] = useState('bangalore');
+    const [tempOption, settempOption] = useState('C');
+    const [selectedcity, setselectedcity] = useState('1277333');
     const [error, seterror] = useState('');
     const [httpStatus, setHttpStatus] = useState([]);
     const inputRef = useRef();
@@ -57,11 +57,13 @@ const Weather = () => {
             if (!location) {
                 throw new Error("Plese enter city")
             }
+            console.log(location)
             //const result = await fetch('http://localhost:3000/cities');
-            const result = await fetch('https://my-json-server.typicode.com/revathiks/mockapi/cities');
-            if (!result.ok) throw new Error("Something went wrong with API")
+            const result = await fetch(`https://api.weatherserver.com/weather/cities/${location}`);
             const json = await result.json();
-            const searchResults = json.filter((item) => item.name.toLowerCase().startsWith(location.toLowerCase()));
+            console.log(json)
+            if (!result.ok) throw new Error("Something went wrong with API")
+            const searchResults = json.results.filter((item) => item.name.toLowerCase().startsWith(location.toLowerCase()));
             setsearchResult(searchResults);
             setlocationText(location);
             successStatus({ type });
@@ -75,10 +77,11 @@ const Weather = () => {
     const searchLocations = debounce((text) => { findLocation(); }, 1000);
 
     const getWeather = async (city = selectedcity) => {
+        console.log(tempOption)
         const type = 'CITY_REPORT';
         try {
             loadingStatus({ type });
-            const result = await fetch(`${apiUrl}?q=${city}&units=${tempOption}&appid=${appId}`)
+            const result = await fetch(`https://api.weatherserver.com/weather/current/${city}/${tempOption}`)
             if (!result.ok) throw new Error("Something went wrong with weather report API")
             const json = await result.json();
             setweatherReport(json);
@@ -120,7 +123,7 @@ const Weather = () => {
                         {reportStatus?.status === 'REQUEST' && <div className="font-semibold text-red-400">Loading...</div>}
                         {reportStatus?.status === 'FAIL' && <div className=" font-semibold text-red-800">{reportStatus.payload.message}</div>}
                     </div>
-                    {weatherReport.name && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} tempOption={tempOption} />}
+                    {weatherReport && <WeatherReport weatherReport={weatherReport} reportStatus={reportStatus} tempOption={tempOption} />}
                 </div>
 
 

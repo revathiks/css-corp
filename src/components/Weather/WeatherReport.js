@@ -2,9 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types';
 
 const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
-    const { main, wind, name, weather } = weatherReport;
-    const { temp, temp_min, temp_max, feels_like, pressure, humidity } = main;
-    const [icon] = weather;
+    const { temp, temp_min, temp_max, feels_like, pressure, humidity, icon, location, wind_direction, wind_speed } = weatherReport;
 
     return (
         <>
@@ -15,10 +13,10 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
 
                         <div className="flex text-left bg-white mt-5">
                             <div className=' order-1 flex-grow'>
-                                <h1 className=" font-bold text-xl leading-10">{name}</h1>
+                                <h1 className=" font-bold text-xl leading-10">{location}</h1>
                                 <div className="font-normal text-slate-400">SCATTERED CLOUDS | FEEL LIKE {feels_like} {tempOption} </div>
                             </div>
-                            <div className=' order-2 '><img src={`http://openweathermap.org/img/wn/${icon.icon}.png`} className="bg-[#eca88e] rounded-full" /></div>
+                            <div className=' order-2 '><img src={`${icon}`} className="bg-[#eca88e] rounded-full" /></div>
                         </div>
 
                         <div className='flex text-slate-50'>
@@ -30,8 +28,8 @@ const WeatherReport = ({ weatherReport, reportStatus, tempOption }) => {
                         </div>
                         <div className='flex text-slate-50'>
 
-                            <div className=' from-pink-700 to-purple-500 bg-gradient-to-r px-5 py-5 my-5 flex-1 rounded-lg'><div>WIND SPEED</div><div>{wind.speed} meter /sec</div></div>
-                            <div className='from-pink-700 to-pink-500 bg-gradient-to-r px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>WIND DIRECTION</div> <div>{wind.deg} degree</div></div>
+                            <div className=' from-pink-700 to-purple-500 bg-gradient-to-r px-5 py-5 my-5 flex-1 rounded-lg'><div>WIND SPEED</div><div>{wind_speed} meter /sec</div></div>
+                            <div className='from-pink-700 to-pink-500 bg-gradient-to-r px-5 py-5 my-5 ml-2 flex-1 rounded-lg'><div>WIND DIRECTION</div> <div>{wind_direction} degree</div></div>
                         </div>
                         <div className='flex text-slate-50'>
                             <div className='from-blue-400 to-blue-500 bg-gradient-to-r w-full px-5 py-5 my-5 flex-1 rounded-lg'><div>PRESSURE</div> <div>{pressure} hPa</div></div>
