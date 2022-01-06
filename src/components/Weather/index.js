@@ -1,12 +1,11 @@
-import React, { Component, memo, useRef, useState, useEffect, useCallback } from 'react';
+import React, { Component, memo, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import WeatherForm from './weatherForm';
 import WeatherSearchResults from './WeatherSearchResults';
 import WeatherReport from './WeatherReport';
 import WeatherUnits from './weatherUnit';
 //import debounce from 'lodash/debounce';
 import debounce from "lodash.debounce";
-const apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
-const appId = '333458e05b25c5e69a7c22d64b7bc47f';
+import useHttpStatus from '../../hooks/useHttpStatus';
 
 const Weather = () => {
     const [searchResult, setsearchResult] = useState([]);
@@ -15,39 +14,8 @@ const Weather = () => {
     const [tempOption, settempOption] = useState('C');
     const [selectedcity, setselectedcity] = useState('1277333');
     const [error, seterror] = useState('');
-    const [httpStatus, setHttpStatus] = useState([]);
+    const { httpStatus, loadingStatus, successStatus, errorStatus } = useHttpStatus();
     const inputRef = useRef();
-
-    //loading functionality
-    const loadingStatus = ({ type, id = -1 }) => {
-        setHttpStatus((existingStatus) => {
-            const findIndexNo = existingStatus.findIndex((item) => item.type === type && item.id === id);
-            const data = { type, status: 'REQUEST', id };
-
-            if (findIndexNo == -1) {
-                return [...existingStatus, data]
-            }
-            return [...existingStatus.slice(0, findIndexNo), data, ...existingStatus.slice(findIndexNo + 1)];
-        });
-    }
-
-    const successStatus = ({ type, id = -1 }) => {
-        setHttpStatus((existingStatus) =>
-            existingStatus.filter((item) => !(item.type === type && item.id === id))
-        );
-    };
-
-    const errorStatus = ({ type, payload, id = -1 }) => {
-
-        setHttpStatus((existingStatus) =>
-            existingStatus.map((item) => {
-                if (item.type === type && item.id === id) {
-                    return { ...item, status: 'FAIL', payload };
-                }
-                return item;
-            }),
-        );
-    };
 
     const findLocation = async () => {
         const type = 'SEARCH_CITY';
@@ -57,7 +25,6 @@ const Weather = () => {
             if (!location) {
                 throw new Error("Plese enter city")
             }
-            //const result = await fetch('http://localhost:3000/cities');
             const result = await fetch(`https://api.weatherserver.com/weather/cities/${location}`);
             const json = await result.json();
             if (!result.ok) throw new Error("Something went wrong with API")
@@ -68,13 +35,12 @@ const Weather = () => {
         } catch (error) {
             errorStatus({ type, payload: error });
         }
-    };
+    }
 
-    //const searchLocations = useCallback(debounce((text) => setlocationText(text), 1000), []);
     //const searchLocations = debounce((text) => { setlocationText(text); setweatherReport('') }, 1000);
-    const searchLocations = debounce((text) => { findLocation(); }, 1000);
+    const searchLocations = useCallback(debounce((text) => { findLocation(); }, 1000), []);
 
-    const getWeather = async (city = selectedcity) => {
+    const getWeather = useCallback(async (city = selectedcity) => {
         const type = 'CITY_REPORT';
         try {
             loadingStatus({ type });
@@ -88,21 +54,20 @@ const Weather = () => {
             errorStatus({ type, payload: error });
         }
 
-    }
-    const UpdateTemp = (val) => {
+    }, [loadingStatus, successStatus, errorStatus]);
+
+    const UpdateTemp = useCallback((val) => {
         settempOption(val);
-    }
-    // useEffect(() => {
-    //     findLocation();
-    // }, [locationText]);
+    }, [loadingStatus, successStatus, errorStatus])
+
 
     useEffect(() => {
         getWeather()
     }, [tempOption]);
 
 
-    const searchStatus = httpStatus.find((x) => x.type === 'SEARCH_CITY');
-    const reportStatus = httpStatus.find((x) => x.type === 'CITY_REPORT');
+    const searchStatus = useMemo(() => httpStatus.find((x) => x.type === 'SEARCH_CITY'), [httpStatus]);
+    const reportStatus = useMemo(() => httpStatus.find((x) => x.type === 'CITY_REPORT'), [httpStatus]);
     return (
         <div className=" bg-gray-100">
             < div className=" flex flex-col bg-slate-50 mx-10 py-5 px-5" >

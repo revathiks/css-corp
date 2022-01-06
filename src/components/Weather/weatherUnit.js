@@ -21,4 +21,4 @@ WeatherUnits.prototypes = {
 WeatherUnits.defaultProps = {
     tempOption: 'imperial'
 }
-export default WeatherUnits;
+export default memo(WeatherUnits);
