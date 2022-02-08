@@ -1,10 +1,34 @@
 {
   "todo-list": [
     {
-      "text": "sdfg",
-      "isDone": false,
-      "timeStamp": "12-17-21 15:29",
-      "id": 12
+      "text": "a",
+      "timeStamp": "",
+      "id": 1,
+      "isDone": true
+    },
+    {
+      "text": "b",
+      "timeStamp": "",
+      "id": 2,
+      "isDone": true
+    },
+    {
+      "text": "c",
+      "timeStamp": "",
+      "id": 3,
+      "isDone": true
+    },
+    {
+      "text": "d",
+      "timeStamp": "",
+      "id": 4,
+      "isDone": true
+    },
+    {
+      "text": "reva",
+      "timeStamp": "",
+      "id": 5,
+      "isDone": true
     }
   ]
 }
